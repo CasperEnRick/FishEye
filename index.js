@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import 'three/examples/js/postprocessing/EffectComposer.js';
 import 'three/examples/js/postprocessing/ShaderPass.js';
 import FishEyePass from './src/FishEyePass.js';
+import 'three/examples/js/shaders/CopyShader.js';
 import earthURL from './texture/earth.jpg';
 
 document.body.style.margin = 0;
