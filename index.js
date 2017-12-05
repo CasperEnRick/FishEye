@@ -20,6 +20,13 @@ const scene = new THREE.Scene();
 
 // cube camera renders to a cube texture, this texture is transformed to a 180deg fisheye view
 const camera = new THREE.CubeCamera(0.1, 1000, 1024);
+scene.add(camera);
+
+const domeGeometry = new THREE.SphereBufferGeometry(1, 10, 10, 0, Math.PI * 2, 0, Math.PI / 2);
+const domeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide });
+const shield = new THREE.Mesh(domeGeometry, domeMaterial);
+shield.rotation.x = Math.PI;
+camera.add(shield);
 
 const geometry = new THREE.SphereBufferGeometry(10, 20, 20);
 // const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff });
