@@ -41,7 +41,7 @@ module.exports = {
 
 	plugins: [
     new HtmlWebpackPlugin({
-      title: 'Toon Shader',
+      title: 'Fish Eye',
       template: require('html-webpack-template'),
       inject: false,
       appMountId: 'app'
