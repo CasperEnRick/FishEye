@@ -41,8 +41,7 @@ composer.addPass(fishEyePass);
 function animate() {
   mesh.rotation.y += 0.005;
   composer.render();
-  // requestAnimationFrame(animate);
-  setTimeout(animate, 100);
+  requestAnimationFrame(animate);
 }
 animate();
 
