@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import 'three/examples/js/postprocessing/EffectComposer.js';
 import 'three/examples/js/postprocessing/ShaderPass.js';
-import FishEyePass from './src/FishEyePass.js';
 import 'three/examples/js/shaders/CopyShader.js';
+import FullDomePass from './src/FullDomePass.js';
 import earthURL from './texture/earth.jpg';
 
 document.body.style.margin = 0;
@@ -35,7 +35,7 @@ scene.add(mesh);
 // setup composer
 const composer = new THREE.EffectComposer(renderer);
 
-const fishEyePass = new FishEyePass(scene, camera);
+const fishEyePass = new FullDomePass(scene, camera);
 fishEyePass.renderToScreen = true;
 composer.addPass(fishEyePass);
 

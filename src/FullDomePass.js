@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import fishEyeVert from '../shaders/fish_eye_vert.glsl';
 import fishEyeFrag from '../shaders/fish_eye_frag.glsl';
 
-export default class FishEyePass {
+export default class FullDomePass {
   constructor(scene, camera) {
     this.scene = scene;
     this.camera = camera;
@@ -17,8 +17,7 @@ export default class FishEyePass {
         map: { type: 't', value: null }
       },
       vertexShader: fishEyeVert,
-      fragmentShader: fishEyeFrag,
-      side: THREE.DoubleSide
+      fragmentShader: fishEyeFrag
     });
     this._quad = new THREE.Mesh(new THREE.PlaneBufferGeometry(2, 2), material);
     this._quad.frustumCulled = false;
