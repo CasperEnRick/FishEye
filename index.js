@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import 'three/examples/js/postprocessing/EffectComposer.js';
 import 'three/examples/js/postprocessing/ShaderPass.js';
 import FishEyePass from './src/FishEyePass.js';
-import fileURL from './texture/earth.jpg';
+import earthURL from './texture/earth.jpg';
 
 document.body.style.margin = 0;
 document.body.style.padding = 0;
@@ -23,7 +23,7 @@ const camera = new THREE.CubeCamera(0.1, 1000, 1024);
 const geometry = new THREE.SphereGeometry(0.3, 20, 20);
 // const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff });
 const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
-new THREE.TextureLoader().load(fileURL, texture => {
+new THREE.TextureLoader().load(earthURL, texture => {
   material.map = texture;
   material.needsUpdate = true;
 });
