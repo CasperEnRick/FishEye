@@ -21,7 +21,7 @@ const scene = new THREE.Scene();
 // cube camera renders to a cube texture, this texture is transformed to a 180deg fisheye view
 const camera = new THREE.CubeCamera(0.1, 1000, 1024);
 
-const geometry = new THREE.SphereGeometry(0.3, 20, 20);
+const geometry = new THREE.SphereBufferGeometry(10, 20, 20);
 // const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff });
 const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
 new THREE.TextureLoader().load(earthURL, texture => {
