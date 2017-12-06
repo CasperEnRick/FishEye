@@ -46,9 +46,9 @@ scene.add(mesh);
 // setup composer
 const composer = new THREE.EffectComposer(renderer);
 
-const fishEyePass = new FullDomePass(scene, camera);
-fishEyePass.renderToScreen = true;
-composer.addPass(fishEyePass);
+const fullDomePass = new FullDomePass(scene, camera);
+fullDomePass.renderToScreen = true;
+composer.addPass(fullDomePass);
 
 function animate() {
   mesh.rotation.y += 0.005;
