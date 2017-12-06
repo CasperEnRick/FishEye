@@ -71,7 +71,7 @@ window.addEventListener('mousemove', event => {
       .divide(new THREE.Vector2(renderer.domElement.width, renderer.domElement.height));
 
     const axis = new THREE.Vector3(delta.y, 0., delta.x).normalize();
-    const angle = delta.length();
+    const angle = delta.length() * 3.;
     mesh.rotateOnWorldAxis(axis, angle);
 
     composer.render();
