@@ -62,26 +62,22 @@ const fullDomePass = new FullDomePass(scene, camera);
 fullDomePass.renderToScreen = true;
 composer.addPass(fullDomePass);
 
-let lastX;
-let lastY;
+const lastMouse = new THREE.Vector2();
 window.addEventListener('mousemove', event => {
-  const { x, y } = event;
+  const mouse = new THREE.Vector2(event.x, event.y);
   if (event.which && 1) {
-    const dx = (lastX - x) / renderer.domElement.width;
-    const dy = (lastY - y) / renderer.domElement.height;
+    const delta = new THREE.Vector2()
+      .subVectors(lastMouse, mouse)
+      .divide(new THREE.Vector2(renderer.domElement.width, renderer.domElement.height));
 
-    drag(dx, dy);
+    const axis = new THREE.Vector3(delta.y, 0., delta.x).normalize();
+    const angle = delta.length();
+    mesh.rotateOnWorldAxis(axis, angle);
+
+    composer.render();
   }
-  lastX = x;
-  lastY = y;
+  lastMouse.copy(mouse);
 });
-
-function drag(dx, dy) {
-  const axis = new THREE.Vector3(dy, 0., dx).normalize();
-  const angle = Math.sqrt(Math.pow(dx, 2.) + Math.pow(dy, 2.)) * 3.;
-  mesh.rotateOnWorldAxis(axis, angle);
-  composer.render();
-}
 
 // set size
 function updateSize() {
