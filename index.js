@@ -43,6 +43,18 @@ const mesh = new THREE.Mesh(geometry, material);
 mesh.rotation.x = Math.PI / 2;
 scene.add(mesh);
 
+// // test cube
+// const geometry = new THREE.BoxGeometry(1, 1, 1);
+// const colors = [0xff0000, 0x00ff00, 0x0000ff, 0x00ffff, 0xff00ff, 0xffff00];
+// for (let i = 0; i < geometry.faces.length; i += 2) {
+//   const color = colors[i / 2];
+//   geometry.faces[i].color.setHex(color);
+//   geometry.faces[i + 1].color.setHex(color);
+// }
+// const material = new THREE.MeshBasicMaterial({ color: 0xffffff, vertexColors: THREE.FaceColors, side: THREE.BackSide });
+// const mesh = new THREE.Mesh(geometry, material);
+// scene.add(mesh);
+
 // setup composer
 const composer = new THREE.EffectComposer(renderer);
 
