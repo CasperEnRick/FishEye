@@ -22,10 +22,14 @@ const scene = new THREE.Scene();
 const camera = new THREE.CubeCamera(0.1, 1000, 1024);
 scene.add(camera);
 
-const domeGeometry = new THREE.SphereBufferGeometry(1, 10, 10, 0, Math.PI * 2, 0, Math.PI / 2);
-const domeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide });
-const shield = new THREE.Mesh(domeGeometry, domeMaterial);
-shield.rotation.x = Math.PI;
+// add half a sphere to the back of the camera to add the round corners
+const shieldGeometry = new THREE.SphereBufferGeometry(1000, 10, 10, 0, Math.PI * 2, 0, Math.PI / 2);
+const shieldMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide });
+shieldMaterial.depthWrite = false;
+shieldMaterial.depthTest = false;
+const shield = new THREE.Mesh(shieldGeometry, shieldMaterial);
+shield.rotation.z = Math.PI;
+shield.renderOrder = 10000;
 camera.add(shield);
 
 const geometry = new THREE.SphereBufferGeometry(10, 20, 20);
