@@ -38,6 +38,7 @@ const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
 new THREE.TextureLoader().load(earthURL, texture => {
   material.map = texture;
   material.needsUpdate = true;
+  composer.render();
 });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
@@ -61,13 +62,28 @@ const fullDomePass = new FullDomePass(scene, camera);
 fullDomePass.renderToScreen = true;
 composer.addPass(fullDomePass);
 
-function animate() {
-  camera.rotation.y += 0.005;
-  camera.rotation.x += 0.01;
+let lastX;
+let lastY;
+window.addEventListener('mousemove', event => {
+  const { x, y } = event;
+  if (event.which && 1) {
+    const dx = (lastX - x) / renderer.domElement.width;
+    const dy = (lastY - y) / renderer.domElement.height;
+
+    drag(dx, dy);
+  }
+  lastX = x;
+  lastY = y;
+});
+
+function drag(dx, dy) {
+  const axis = new THREE.Vector3(dy, 0., dx).normalize();
+  const angle = Math.sqrt(Math.pow(dx, 2.) + Math.pow(dy, 2.)) * 3.;
+  const quaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);
+
+  mesh.quaternion.premultiply(quaternion);
   composer.render();
-  requestAnimationFrame(animate);
 }
-animate();
 
 // set size
 function updateSize() {
@@ -80,3 +96,5 @@ function updateSize() {
 }
 updateSize();
 window.addEventListener('resize', updateSize);
+
+composer.render();
