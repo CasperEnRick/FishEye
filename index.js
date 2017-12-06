@@ -40,7 +40,6 @@ new THREE.TextureLoader().load(earthURL, texture => {
   material.needsUpdate = true;
 });
 const mesh = new THREE.Mesh(geometry, material);
-mesh.rotation.x = Math.PI / 2;
 scene.add(mesh);
 
 // // test cube
@@ -63,7 +62,8 @@ fullDomePass.renderToScreen = true;
 composer.addPass(fullDomePass);
 
 function animate() {
-  mesh.rotation.y += 0.005;
+  camera.rotation.y += 0.005;
+  camera.rotation.x += 0.01;
   composer.render();
   requestAnimationFrame(animate);
 }
