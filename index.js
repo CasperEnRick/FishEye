@@ -79,9 +79,7 @@ window.addEventListener('mousemove', event => {
 function drag(dx, dy) {
   const axis = new THREE.Vector3(dy, 0., dx).normalize();
   const angle = Math.sqrt(Math.pow(dx, 2.) + Math.pow(dy, 2.)) * 3.;
-  const quaternion = new THREE.Quaternion().setFromAxisAngle(axis, angle);
-
-  mesh.quaternion.premultiply(quaternion);
+  mesh.rotateOnWorldAxis(axis, angle);
   composer.render();
 }
 
