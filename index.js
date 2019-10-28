@@ -32,14 +32,18 @@ shield.rotation.z = Math.PI;
 shield.renderOrder = 10000;
 camera.add(shield);
 
+const mouseTarget = new THREE.Mesh(new THREE.SphereBufferGeometry(1, 20, 20), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+mouseTarget.position.set(0, 10, 0);
+scene.add(mouseTarget);
+
 const geometry = new THREE.SphereBufferGeometry(10, 20, 20);
-// const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff });
-const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
-new THREE.TextureLoader().load(earthURL, texture => {
-  material.map = texture;
-  material.needsUpdate = true;
-  composer.render();
-});
+const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff });
+// const material = new THREE.MeshBasicMaterial({ side: THREE.BackSide });
+// new THREE.TextureLoader().load(earthURL, texture => {
+//   material.map = texture;
+//   material.needsUpdate = true;
+//   composer.render();
+// });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -62,21 +66,26 @@ const fullDomePass = new FullDomePass(scene, camera);
 fullDomePass.renderToScreen = true;
 composer.addPass(fullDomePass);
 
-const lastMouse = new THREE.Vector2();
 window.addEventListener('mousemove', event => {
+  const r = Math.min(window.innerWidth / 2, window.innerHeight / 2);
+
   const mouse = new THREE.Vector2(event.x, event.y);
-  if (event.which && 1) {
-    const delta = new THREE.Vector2()
-      .subVectors(lastMouse, mouse)
-      .divide(new THREE.Vector2(renderer.domElement.width, renderer.domElement.height));
+  const center = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
-    const axis = new THREE.Vector3(delta.y, 0., delta.x).normalize();
-    const angle = delta.length() * 3.;
-    mesh.rotateOnWorldAxis(axis, angle);
+  const d = mouse.distanceTo(center);
 
-    composer.render();
-  }
-  lastMouse.copy(mouse);
+  const alpha = d / r * Math.PI / 2;
+
+  const x1 = Math.sin(alpha);
+  const y1 = Math.cos(alpha);
+
+  const z = -(mouse.y - center.y) / d * x1;
+  const y = y1;
+  const x = (mouse.x - center.x) / d * x1;
+
+  mouseTarget.position.set(x, y, z).multiplyScalar(20);
+
+  composer.render();
 });
 
 // set size
