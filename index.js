@@ -45,6 +45,7 @@ const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0xffffff 
 //   composer.render();
 // });
 const mesh = new THREE.Mesh(geometry, material);
+mesh.position.set(0, 2, 4);
 scene.add(mesh);
 
 // // test cube
@@ -66,10 +67,9 @@ const fullDomePass = new FullDomePass(scene, camera);
 fullDomePass.renderToScreen = true;
 composer.addPass(fullDomePass);
 
-window.addEventListener('mousemove', event => {
+function unprojectFishEye(mouse) {
   const r = Math.min(window.innerWidth / 2, window.innerHeight / 2);
 
-  const mouse = new THREE.Vector2(event.x, event.y);
   const center = new THREE.Vector2(window.innerWidth / 2, window.innerHeight / 2);
 
   const d = mouse.distanceTo(center);
@@ -79,12 +79,25 @@ window.addEventListener('mousemove', event => {
   const x1 = Math.sin(alpha);
   const y1 = Math.cos(alpha);
 
-  const z = -(mouse.y - center.y) / d * x1;
-  const y = y1;
   const x = (mouse.x - center.x) / d * x1;
+  const y = y1;
+  const z = -(mouse.y - center.y) / d * x1;
 
-  mouseTarget.position.set(x, y, z).multiplyScalar(20);
+  return new THREE.Vector3(x, y, z);
+}
 
+window.addEventListener('mousemove', event => {
+  const mouse = new THREE.Vector2(event.x, event.y);
+
+  const ray = new THREE.Ray(camera.position, unprojectFishEye(mouse));
+
+  // mathmatical representation of a sphere
+  const mathSphere = new THREE.Sphere(mesh.position, mesh.geometry.parameters.radius);
+
+  const pos = new THREE.Vector3();
+  ray.intersectSphere(mathSphere, pos);
+
+  mouseTarget.position.copy(pos);
   composer.render();
 });
 
